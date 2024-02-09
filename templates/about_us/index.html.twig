@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}A propos de nous - Mon P'tit Matin{% endblock %}
+
+{% block content %}
+    <div class="about-us mt-4">
+        <h4>Bienvenue chez John Doe Mon p'tit matin !</h4>
+
+        <h2>Notre Histoire <img src="{{ asset('assets/img/livre.png') }}" alt="Un Livre"></h2>
+        <p>John Doe, passionné de gastronomie matinale, a décidé de partager son amour pour les petits déjeuners délicieux en lançant son 
+        service de petits déjeuners en ligne. Son rêve ? Offrir une expérience matinale exceptionnelle à tous ceux qui résident aux alentours 
+        de Saint-Omer, livrée directement à leur porte. 
+        </p>
+        
+
+        <h2>Notre Mission <img src="{{ asset('assets/img/fusee.png') }}" alt="Une Fusée"></h2>
+        <p>Chez John Doe Mon p’tit matin, notre mission est claire : rendre vos matins mémorables en vous offrant la possibilité de composer 
+        votre petit déjeuner parfait, sur mesure. Nous croyons en la qualité des ingrédients, en soutenant nos producteurs locaux et en offrant 
+        une expérience d'achat en ligne simple et sécurisée.
+        </p>
+
+        <h2>Votre Petit Déjeuner, Votre Façon <img src="{{ asset('assets/img/croissant.png') }}" alt="Un Croissant"></h2>
+        <p>Explorez notre catalogue de délicieuses options pour composer le petit déjeuner qui correspond parfaitement à vos goûts. 
+        Choisissez parmi une variété de produits frais et locaux, et personnalisez votre formule selon vos préférences.
+        </p>
+
+        <h2>Livraison Directe à Votre Porte <img src="{{ asset('assets/img/livraison-rapide.png') }}" alt="Livraison Rapide"></h2>
+        <p>Commandez en quelques clics, précisez votre adresse et sélectionnez le créneau horaire qui vous convient le mieux. 
+        Nous livrons dans plusieurs localités, y compris Arques, Saint Omer, Blendecques, Longuenesse, Tilques, Wizernes, Esquerdes, 
+        Saint-Martin-au-Laërt, Hallines, Helfaut, Saint-Momelin. Un petit déjeuner de qualité, directement à votre porte, tous les matins sauf 
+        le lundi.
+        </p>
+
+        <h2>Soutien aux Producteurs Locaux <img src="{{ asset('assets/img/fermier-chapeau.png') }}" alt="Un fermier avec un chapeau"></h2>
+        <p>Découvrez les producteurs locaux qui participent à cette aventure gastronomique avec nous. Nous sommes fiers de collaborer 
+        avec des artisans passionnés pour vous offrir des ingrédients frais et savoureux. Pour en apprendre plus sur nos partenaires 
+        <a href="{{path ('app_producter')}}">cliquez ici</a> 
+        </p>
+
+        <h2>Une gestion Facile et Efficace <img src="{{ asset('assets/img/pouce.png') }}" alt="Pouce en l'air"></h2>
+        <p>John Doe gère son entreprise avec une interface administrateur robuste et conviviale. Il met régulièrement à jour le catalogue, 
+        s'assure de la disponibilité des produits locaux, gère les zones de livraison et contrôle les créneaux horaires pour une expérience 
+        transparente et sans tracas.
+        </p>
+
+        <h2>Rejoignez-nous pour une Aventure Gourmande Matinale <img src="{{ asset('assets/img/soleil.png') }}" alt="Un Soleil"></h2>
+        <p>Préparez-vous à transformer vos matins avec John Doe Mon p’tit matin. Commandez en ligne, personnalisez votre petit déjeuner, 
+        et attendez-vous à savourer chaque bouchée d'une expérience gustative inoubliable. Merci de faire partie de notre aventure !
+        </p>
+    </div>
+{% endblock %}

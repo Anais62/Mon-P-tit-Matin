@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+    <div class="homeimage">
+        <h1 class="offre">En ce moment pour 2 p'tit dej acheter le 3ème est offert</h1>
+        <a href="{{ path('app_product') }}" class="profiter">J'en profite</a>
+    </div>
+
+    <div class="row mt-5 mb-5 text-center">
+        <div class="col">
+            <img src="{{ asset('assets/img/agricultrice.png')}}" alt="Une agricultrice" class="agricultrice">
+        </div>
+        <div class="col my-auto">
+            <p class="text-agricultrice">
+                Nous travaillons en étroite collaboration avec les producteurs locaux et nous les soutenons pleinement. 
+                En favorisant les produits locaux, nous contribuons à stimuler l'économie locale, à promouvoir le développement durable et 
+                à préserver les savoir-faire traditionnels. En mettant en avant les produits locaux, nous nous engageons à offrir à nos 
+                clients des produits de haute qualité tout en encourageant une communauté économique solidaire et prospère.
+            </p>
+        </div>
+    </div>
+{% endblock %}

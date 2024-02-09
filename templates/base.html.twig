@@ -2,16 +2,64 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Mon p'tit matin!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="{{ asset('build/vendor.css') }}">
+        <script src="{{ asset('build/vendor.js') }}" defer></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/mon-ptit-matin.css') }}">
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
 {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        
     </head>
+         
+
+
+
     <body>
-        {% block body %}{% endblock %}
+    <header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ path('app_home') }}"><img src="{{asset('assets/img/logo.png')}}" alt="logo" id='logo'></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{path ('app_about_us')}}">A propos de nous</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{path ('app_product')}}">Nos produits</a>
+          </li>
+                    <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{path ('app_producter')}}">Nos partenaires</a>
+          </li>
+        </ul>
+        <div class="navbar-item-custom">
+        {% if app.user %}
+        <a href="{{path ('app_account')}}">Mon Compte <small></small></a>  |  <a href="{{path ('app_logout')}}">Déconnexion</a>
+        {% else %}
+
+        <a href="{{path ('app_login')}}">Connexion</a>  |  <a href="{{path ('app_register')}}">Inscription</a>
+        {% endif %}
+        </div><span class="opacity-0">eseee</span>
+        <a href="">
+          <img src="{{asset('assets/img/cart.png')}}" alt="Mon panier" class="cart-icon">
+        </a><span class="opacity-0">ee</span>
+      </div>
+    </div>
+  </nav>
+</header>
+        {% block content %}{% endblock %}
     </body>
 </html>

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos produits - Mon P'tit matin{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        {% for product in formule %}
+            <div class="col-md-5 formule">
+                <div class="formule-item shadow">
+                    <div class="image-formule" style="background-image: url('/uploads/{{ product.illustration }}'); background-position:center;">
+                        <a href="{{ path('app_product') }}" class="voir-formule">J'en profite <img src="{{ asset('assets/img/droite.png') }}" alt="Flèche direction vers la droite"></a>
+                    </div>
+                    <div class="text-center mt-2">
+                        <h3>{{ product.title }}</h3>
+                        <span class="formule-price">{{ (product.price / 100) |number_format(2, ',', '.') }}€</span>
+                        <p class="formule-nbproduct">{{ product.getNbProduct() }} produits aux choix</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>   
+{% endblock %}
