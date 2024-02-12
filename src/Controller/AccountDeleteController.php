@@ -64,4 +64,3 @@ class AccountDeleteController extends AbstractController
         ]);
     }
 }
-//zdazda

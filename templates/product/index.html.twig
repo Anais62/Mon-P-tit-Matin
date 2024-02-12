@@ -8,7 +8,7 @@
             <div class="col-md-5 formule">
                 <div class="formule-item shadow">
                     <div class="image-formule" style="background-image: url('/uploads/{{ product.illustration }}'); background-position:center;">
-                        <a href="{{ path('app_product') }}" class="voir-formule">J'en profite <img src="{{ asset('assets/img/droite.png') }}" alt="Flèche direction vers la droite"></a>
+                        <a href="{{ path('app_formule', { 'slug' : product.slug }) }}" class="voir-formule">J'en profite <img src="{{ asset('assets/img/droite.png') }}" alt="Flèche direction vers la droite"></a>
                     </div>
                     <div class="text-center mt-2">
                         <h3>{{ product.title }}</h3>

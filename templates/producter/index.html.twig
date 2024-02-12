@@ -7,46 +7,49 @@
     <div class="producter mt-5 mb-5">
         <h1 class="text-end">Nos partenaires</h1>
         <div class="row">
+        {# Initialisation d'un compteur pour faire l'effet du gauche  droite #}
+        {% set compteur = 0 %}
+
+        {% for producter in producters %}
+
+            {% if compteur % 2 == 0 %}
+            
             <div class="partenaire">
                 <div class="col-md-4">
-                    <img src="{{ asset('assets/img/partenaire2.png') }}" alt="Notre 1er partenaire">
+                    <img src='/uploads/{{ producter.illustration }}' alt="Notre "{{compteur + 1}}" partenaire">
                 </div>
                 <div class="col-md-7 my-auto">
                     <p>
-                        Julien, l'agriculteur local, incarne la force tranquille des terres fertiles qu'il cultive avec passion depuis 
-                        sa jeunesse. Doté d'un esprit pragmatique et d'une patience inébranlable, il navigue avec habileté à travers les saisons 
-                        changeantes et les défis agricoles, toujours prêt à s'adapter et à innover pour assurer la prospérité de ses cultures.
+                         {{ (producter.description)  }}
                     </p>
                 </div>
             </div>
-
+            {% set compteur = compteur + 1  %}
+            {% elseif compteur % 2 != 0 %}
+                
+                
             <div class="partenaire">
                 <div class="col-md-7 my-auto">
                     <p>
-                        Hervé, l'agriculteur expérimenté du village, est un homme de traditions et de savoir-faire. Fort de décennies passées à 
-                        travailler la terre de ses ancêtres, il incarne la sagesse et la persévérance. Son regard attentif et son calme apparent 
-                        dissimulent une profonde passion pour son métier et un désir ardent de transmettre son héritage agricole 
-                        aux générations futures. 
+                      {{ (producter.description)  }}  
                     </p>   
                 </div>
                 <div class="col-md-4">
-                    <img src="{{ asset('assets/img/partenaire3.png') }}" alt="Notre 2ème partenaires">
+                    <img src='/uploads/{{ producter.illustration }}' alt="Notre "{{compteur + 1}}"ème partenaires">
                 </div>
             </div>
 
-            <div class="partenaire">
-                <div class="col-md-4">
-                    <img src="{{ asset('assets/img/partenaire1.png') }}" alt="Notre 3ème partenaires">
-                </div>
-                <div class="col-md-7 my-auto">
-                    <p>
-                        Éloïse, la jeune agricultrice voisine, incarne la vivacité et la détermination. Passionnée par l'agriculture biologique 
-                        et respectueuse de l'environnement, elle est constamment à la recherche de nouvelles méthodes durables pour cultiver 
-                        ses produits. Son énergie débordante se reflète dans ses champs foisonnants de légumes colorés et de fruits juteux, 
-                        témoignant de son engagement envers une alimentation saine et naturelle. 
-                    </p>
-                </div>
-            </div>
+            {% set compteur = compteur + 1 %}
+            
+            {% endif %}
+            
+
+        {% endfor %}
+            
+
+            
+
+            
         </div>
     </div>
 {% endblock %}

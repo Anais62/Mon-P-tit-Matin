@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ formule.title }} - Mon P'tit matin{% endblock %}
+
+{% block content %}
+    <div class="page-produit mt-5">
+        <div class="image-option">
+            <div class="col-md-5">
+                <img src="/uploads/{{ formule.illustration }}" alt="{{ formule.title }}" class="img-fluid">
+                <h2>{{ formule.title }}</h2>
+            </div>
+            <div class="col-md-5">
+            
+            </div>
+        </div>
+        <div class="formule-description mt-5">
+            <p>{{ formule.description }}</p>
+        </div>
+    </div>
+{% endblock %}

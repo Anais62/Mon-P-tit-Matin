@@ -27,4 +27,18 @@ class ProductController extends AbstractController
             'formule' => $formule
         ]);
     }
+
+    #[Route('/formule/{slug}', name: 'app_formule')]
+    public function show($slug): Response
+    {
+        $formule = $this->entityManager->getRepository(Formule::class)->findOneBy(['slug' => $slug]);
+
+        if (!$formule) {
+            return $this->redirectToRoute('app_product');
+        }
+
+        return $this->render('product/show.html.twig', [
+            'formule' => $formule
+        ]);
+    }
 }

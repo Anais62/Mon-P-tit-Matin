@@ -41,6 +41,8 @@ class AccountAddressController extends AbstractController
             $address->setUser($this->getUser());
             $this->entityManager->persist($address);
             $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_account_address');
             
         }
 
