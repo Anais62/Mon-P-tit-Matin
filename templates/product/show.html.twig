@@ -6,15 +6,16 @@
     <div class="page-produit mt-5">
         <div class="image-option">
             <div class="col-md-5">
-                <img src="/uploads/{{ formule.illustration }}" alt="{{ formule.title }}" class="img-fluid">
-                <h2>{{ formule.title }}</h2>
+                <img src="/uploads/{{ formule.illustration }}" alt="{{ formule.title }}" class="image_produit">
+                <h2 class='text-center'>{{ formule.title }}</h2>
             </div>
             <div class="col-md-5">
             
             </div>
         </div>
         <div class="formule-description mt-5">
-            <p>{{ formule.description }}</p>
+            {{ formule.description|raw }}
+
         </div>
     </div>
 {% endblock %}

@@ -12,11 +12,12 @@
 
         {% for producter in producters %}
 
+            {# Pour afficher a gauche une fois sur deux #}
             {% if compteur % 2 == 0 %}
             
             <div class="partenaire">
                 <div class="col-md-4">
-                    <img src='/uploads/{{ producter.illustration }}' alt="Notre "{{compteur + 1}}" partenaire">
+                    <img src='/uploads/{{ producter.illustration }}' alt="Notre "{{compteur + 1}}" partenaire">     {# POURQUOI LE + 1 psq mon compteur a start a 0 #}
                 </div>
                 <div class="col-md-7 my-auto">
                     <p>
@@ -24,7 +25,9 @@
                     </p>
                 </div>
             </div>
+
             {% set compteur = compteur + 1  %}
+            {# Et hop on affiche a droite #}
             {% elseif compteur % 2 != 0 %}
                 
                 
@@ -38,8 +41,8 @@
                     <img src='/uploads/{{ producter.illustration }}' alt="Notre "{{compteur + 1}}"ème partenaires">
                 </div>
             </div>
-
-            {% set compteur = compteur + 1 %}
+                {# Incrémentation #}
+            {% set compteur = compteur + 1 %} 
             
             {% endif %}
             

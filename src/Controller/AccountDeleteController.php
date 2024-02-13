@@ -10,14 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface; // Importez cette classe
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AccountDeleteController extends AbstractController
 {
     private $entityManager; // Ajoutez cette propriété
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage)
     {
         $this->entityManager = $entityManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
     #[Route('/compte/supprimer', name: 'app_account_delete')]
@@ -31,7 +33,7 @@ class AccountDeleteController extends AbstractController
 
         $form = $this->createFormBuilder()
             ->add('password', PasswordType::class, [
-                'label' => 'Entrez votre mot de passe pour pouvoir supprimer votre compte',
+                'label' => 'Entrez votre mot de passe pour confirmer la suppression de votre compte',
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "Confirmer la suppression de mon compte",
@@ -52,8 +54,14 @@ class AccountDeleteController extends AbstractController
                 // Supprimer le compte
                 $this->entityManager->remove($user);
                 $this->entityManager->flush();
+
+                // Déconnecter l'utilisateur
+                    $this->tokenStorage->setToken(null);
+
+
+                
                 $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('app_confirm_delete');
             } else {
                 $this->addFlash('danger', 'Le mot de passe est incorrect.');
             }

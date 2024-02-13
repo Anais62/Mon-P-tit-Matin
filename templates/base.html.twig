@@ -11,6 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/mon-ptit-matin.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/script.js') }}" defer>
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -36,10 +38,10 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{path ('app_about_us')}}">A propos de nous</a>
+            <a class="nav-link active" aria-current="page" href="{{path ('app_about_us')}}">A propos de nous |</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{path ('app_product')}}">Nos produits</a>
+            <a class="nav-link active" aria-current="page" href="{{path ('app_product')}}">Nos produits |</a>
           </li>
                     <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{path ('app_producter')}}">Nos partenaires</a>
@@ -53,13 +55,54 @@
         <a href="{{path ('app_login')}}">Connexion</a>  |  <a href="{{path ('app_register')}}">Inscription</a>
         {% endif %}
         </div><span class="opacity-0">ese</span>
-        <a href="">
-          <img src="{{asset('assets/img/cart.png')}}" alt="Mon panier" class="cart-icon">
+        <a href="{{ path('app_cart') }}">
+          <div class="cart">
+          <img id='cart' src="{{asset('assets/img/cart.png')}}" alt="Mon panier" class="cart-icon">
+          <div class="numbercart text-center">0</div></div>
         </a><span class="opacity-0">ee</span>
       </div>
     </div>
   </nav>
 </header>
         {% block content %}{% endblock %}
+    
+    
+    
+    <div class="footer mt-5">
+  <footer class="foot py-3">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="{{ path('app_home') }}" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="{{ path('app_producter') }}" class="nav-link px-2 text-body-secondary">Nos partenaires</a></li>
+      <li class="nav-item"><a href="{{ path('app_contact') }}" class="nav-link px-2 text-body-secondary">Nous contacter</a></li>
+      <li class="nav-item"><a href="{{ path('app_faq') }}" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+      <li class="nav-item"><a href="{{ path('app_about_us') }}" class="nav-link px-2 text-body-secondary">A propos de nous</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">&copy; 2023 Mon P'tit Matin, Inc</p>
+  </footer>
+</div>
+
+
+  <script>
+function checkWindowHeight() {
+            var windowHeight = window.innerHeight;
+            var bodyHeight = document.body.clientHeight;
+
+            if (windowHeight >= bodyHeight) {
+                // Si la hauteur de la fenêtre est supérieure ou égale à la hauteur du contenu
+                // alors le pied de page est positionné en bas de la fenêtre
+                document.querySelector('.foot').style.position = 'absolute';
+            } else {
+                // Sinon, il reste en position fixe
+                document.querySelector('.foot').style.position = 'inherit';
+            }
+            console.log('test')
+        }
+
+        // Vérifie la hauteur de la fenêtre au chargement de la page
+        checkWindowHeight();
+
+        // Vérifie la hauteur de la fenêtre à chaque redimensionnement
+        window.addEventListener('resize', checkWindowHeight);
+  </script>
     </body>
 </html>

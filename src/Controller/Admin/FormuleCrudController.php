@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class FormuleCrudController extends AbstractCrudController
@@ -31,7 +32,7 @@ class FormuleCrudController extends AbstractCrudController
         return [
             TextField::new('title', 'Titre'),
             SlugField::new('slug')->setTargetFieldName('title'),
-            TextareaField::new('description', 'Descrpition')->onlyOnDetail(),
+            TextEditorField::new('description', 'Descrpition'),
             MoneyField::new('price', 'Prix')->setCurrency('EUR'),
             NumberField::new('nb_product', 'Nombre de produits aux choix'),
             ImageField::new('illustration')
