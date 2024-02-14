@@ -32,6 +32,9 @@ class Formule
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column]
+    private ?bool $kid = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Formule
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isKid(): ?bool
+    {
+        return $this->kid;
+    }
+
+    public function setKid(bool $kid): static
+    {
+        $this->kid = $kid;
 
         return $this;
     }

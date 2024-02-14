@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
 use App\Entity\Formule;
 use App\Entity\Producter;
+use App\Entity\Products;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -40,7 +42,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Mon Ptit MatinV2');
+            ->setTitle('Mon Ptit Matin');
     }
 
     public function configureMenuItems(): iterable
@@ -49,6 +51,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateur', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Formules', 'fas fa-cutlery', Formule::class);
         yield MenuItem::linkToCrud('Partenaires', 'fas fa-heart', Producter::class);
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Produits', 'fas fa-tag', Products::class);
 
     }
 }

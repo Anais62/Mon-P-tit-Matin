@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Formule;
+use App\Entity\Products;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,13 +34,17 @@ class ProductController extends AbstractController
     public function show($slug): Response
     {
         $formule = $this->entityManager->getRepository(Formule::class)->findOneBy(['slug' => $slug]);
+        $categories = $this->entityManager->getRepository(Category::class)->findAll();
+        $products = $this->entityManager->getRepository(Products::class)->findAll();
 
         if (!$formule) {
             return $this->redirectToRoute('app_product');
         }
 
         return $this->render('product/show.html.twig', [
-            'formule' => $formule
+            'formule' => $formule,
+            'categories' => $categories,
+            'products' => $products
         ]);
     }
 }

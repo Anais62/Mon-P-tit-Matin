@@ -4,13 +4,43 @@
 
 {% block content %}
     <div class="page-produit mt-5">
-        <div class="image-option">
+        <div class="row image-option justify-content-around">
             <div class="col-md-5">
                 <img src="/uploads/{{ formule.illustration }}" alt="{{ formule.title }}" class="image_produit">
                 <h2 class='text-center'>{{ formule.title }}</h2>
             </div>
             <div class="col-md-5">
-            
+                <strong>Il vous reste <span id="nb_restant"></span> produits aux choix</strong>
+                    <div class="accordion" id="accordion">
+                        {% for category in categories %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ category.id }}" aria-expanded="true" aria-controls="collapse{{ category.id }}">
+                                        <h5>{{ category.name }}</h5>
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ category.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        {% for product in products %}
+                                            {% if product.category == category %}
+                                                <label class="check mb-2">
+                                                    <input type="checkbox" class="product-checkbox" value="{{ product.id }}" data-category="{{ category.id }}">
+                                                    <span>{{ product.name }}</span>
+                                                </label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                    
+                    
+                    
+                    <a href="#" id="addToCartBtn" class="bg-basic btn w-100 mt-3">Ajouter au panier</a>
+                
+               
             </div>
         </div>
         <div class="formule-description mt-5">
@@ -18,4 +48,80 @@
 
         </div>
     </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    var nb_restant = document.getElementById('nb_restant')
+    
+    $(document).ready(function () {
+        
+        var nb_product = {{formule.getNbProduct()}}
+        nb_restant.innerText = nb_product
+        var selectedProducts = 0;
+        var cartbtn = document.getElementById('addToCarBtn')
+        
+        $('.product-checkbox').on('change', function () {
+            
+            if ($(this).prop('checked')) {
+                // Si la case est cochée, vérifier le nombre total de produits sélectionnés
+               
+                if (selectedProducts >= {{formule.getNbProduct()}}) {
+                    $(this).prop('checked', false);
+                    
+                } else {
+                    selectedProducts++;
+                    nb_restant.innerText = nb_product-selectedProducts
+                }
+            }
+            
+                 else {
+                // Si la case est décochée, décrémenter le nombre total de produits sélectionnés
+                selectedProducts--;
+                nb_restant.innerText = nb_product-selectedProducts
+
+            }
+        });
+    });
+    
+</script>
+<script>
+
+$(document).ready(function() {
+    // Initialisation de la liste des produits sélectionnés
+    var selectedProductIds = [];
+
+    // Gestion de la sélection/désélection des produits
+    $('.product-checkbox').change(function() {
+        var productId = $(this).val();
+        if ($(this).is(':checked')) {
+            // Ajouter l'ID du produit à la liste
+            selectedProductIds.push(productId);
+        } else {
+            // Retirer l'ID du produit de la liste
+            selectedProductIds = selectedProductIds.filter(id => id !== productId);
+        }
+        
+        console.log("IDs des produits sélectionnés :", selectedProductIds);
+    });
+
+    // Gestion de la soumission du formulaire
+    $('#addToCartBtn').click(function(e) {
+        e.preventDefault();
+
+        // Récupérer l'ID de la formule
+        var formuleId = "{{ formule.id }}";
+
+        // Construire l'URL avec les IDs des produits sélectionnés
+        var url = "{{ path('app_add_to_cart', {'id': 'formuleIdPlaceholder', 'productIds': 'productIdsPlaceholder'}) }}";
+        url = url.replace('formuleIdPlaceholder', formuleId);
+        url = url.replace('productIdsPlaceholder', selectedProductIds.join(','));
+
+        // Rediriger ou effectuer une autre action avec l'URL construit
+        window.location.href = url;
+    });
+});
+
+
+</script>
 {% endblock %}
