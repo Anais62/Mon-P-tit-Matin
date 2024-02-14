@@ -22,7 +22,7 @@ class ContactController extends AbstractController
 
             // $mail = new Mail();
             // $mail->send('', 'La Boutique Française', 'Vous avez reçu');
-           // dd($form->getData());
+            // dd($form->getData());
         }
 
         return $this->render('contact/index.html.twig', [

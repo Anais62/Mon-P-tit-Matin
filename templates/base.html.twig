@@ -12,6 +12,12 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/mon-ptit-matin.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/js/script.js') }}" defer>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Acme&family=Architects+Daughter&family=Gloria+Hallelujah&family=Kalam:wght@300;400;700&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&family=Montserrat:wght@100;200;300;500&family=Poppins:wght@500&family=Protest+Revolution&family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barriecito&family=Rubik&display=swap" rel="stylesheet">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -29,9 +35,9 @@
 
     <body>
     <header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-md navbar-dark ">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{ path('app_home') }}"><img src="{{asset('assets/img/logo.png')}}" alt="logo" id='logo'></a>
+      <a class="navbar-brand " href="{{ path('app_home') }}"><img src="{{asset('assets/img/logo.png')}}" alt="logo" id='logo'></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
