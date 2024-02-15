@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié - La boutique Française{% endblock %}
+
+{% block content %}
+<br><br>
+   <div class="formRegister d-flex justify-content-center mb-5">
+    <div class="col-md-6 border rounded-4 p-3 bg-white">
+    
+        <h1 class="h3 mb-3 font-weight-normal">Réinitialiser mon mot de passe</h1>
+
+        {% for message in app.flashes('notice') %}
+            
+             <div class="alert alert-info">{{ message }}</div>
+
+
+        {% for message in app.flashes('notice') %}
+        
+            <div class="alert alert-info">{{ message }}</div>
+        
+        {% endfor %}
+        
+        {% endfor %}
+        
+            {{form(form)}}
+    </div>
+</div>
+
+{% endblock %}

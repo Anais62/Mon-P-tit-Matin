@@ -46,10 +46,16 @@ class RegisterController extends AbstractController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
-                
-               
-                $notification = "Inscription Réussi !";
+                $mail = new Mail();
+                $content = "Bonjour ".$user->getName()."<br>Bienvenue sur Mon P'tit Matin.<br><br>Merci d'avoir choisir notre site pour la livraison de petit déjeuner Bio.";
+                $mail->send($user->getEmail(), $user->getFirstname(), "Bienvenue sur Mon P'tit Matin", $content );
 
+                $notification = "Inscription Réussi !";
+                
+                
+
+                
+                
             }else{
                 
                 $notification = "L'email que vous avez renseigné existe déjà.";

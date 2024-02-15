@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-7 my-auto">
                     <p>
-                         {{ (producter.description)  }}
+                         {{ (producter.description|raw)  }}
                     </p>
                 </div>
             </div>
@@ -31,10 +31,10 @@
             {% elseif compteur % 2 != 0 %}
                 
                 
-            <div class="partenaire">
+            <div class="partenaire" style="text-align : end ;">
                 <div class="col-md-7 my-auto">
                     <p>
-                      {{ (producter.description)  }}  
+                      {{ producter.description|raw }}  
                     </p>   
                 </div>
                 <div class="col-md-4">

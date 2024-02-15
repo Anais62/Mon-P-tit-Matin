@@ -33,14 +33,12 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    </div>     
+                    <div id='cartbtn'  class="cartbtnactive">   
+                        <div class='disabled-info alert alert-danger mt-2'>Veuiller ajouter {{ formule.getNbProduct() }} produits au panier </div> 
+                              
+                        <a href="#" id="addToCartBtn" class="bg-basic btn w-100 mt-3 disabled" >Ajouter au panier</a>   
                     </div>
-                
-                    
-                    
-                    
-                    <a href="#" id="addToCartBtn" class="bg-basic btn w-100 mt-3">Ajouter au panier</a>
-                
-               
             </div>
         </div>
         <div class="formule-description mt-5">
@@ -55,34 +53,41 @@
     var nb_restant = document.getElementById('nb_restant')
     
     $(document).ready(function () {
-        
-        var nb_product = {{formule.getNbProduct()}}
-        nb_restant.innerText = nb_product
-        var selectedProducts = 0;
-        var cartbtn = document.getElementById('addToCarBtn')
-        
-        $('.product-checkbox').on('change', function () {
-            
-            if ($(this).prop('checked')) {
-                // Si la case est cochée, vérifier le nombre total de produits sélectionnés
-               
-                if (selectedProducts >= {{formule.getNbProduct()}}) {
-                    $(this).prop('checked', false);
-                    
-                } else {
-                    selectedProducts++;
-                    nb_restant.innerText = nb_product-selectedProducts
-                }
-            }
-            
-                 else {
-                // Si la case est décochée, décrémenter le nombre total de produits sélectionnés
-                selectedProducts--;
-                nb_restant.innerText = nb_product-selectedProducts
+    var nb_restant = document.getElementById('nb_restant');
+    var nb_product = {{ formule.getNbProduct() }};
+    nb_restant.innerText = nb_product
+    var selectedProducts = 0;
 
+    var cartbtns = document.getElementById('cartbtn');
+    var cartbtn = document.getElementById('addToCartBtn');
+    
+
+    $('.product-checkbox').on('change', function () {
+        if ($(this).prop('checked')) {
+            // Si la case est cochée, vérifier le nombre total de produits sélectionnés
+            if (selectedProducts >= nb_product) {
+                $(this).prop('checked', false);
+            } else {
+                selectedProducts++;
+                nb_restant.innerText = nb_product - selectedProducts;
             }
-        });
+        } else {
+            // Si la case est décochée, décrémenter le nombre total de produits sélectionnés
+            selectedProducts--;
+            nb_restant.innerText = nb_product - selectedProducts;
+        }
+
+        // Si le nombre de produits sélectionnés est égal au nombre total de produits, retirer la classe "disabled" du bouton
+        if (selectedProducts === nb_product) {
+            cartbtn.classList.remove('disabled');
+            cartbtns.classList.remove('cartbtnactive');
+        } else {
+            cartbtn.classList.add('disabled');
+            cartbtns.classList.add('cartbtnactive');
+
+        }
     });
+});
     
 </script>
 <script>
@@ -121,7 +126,6 @@ $(document).ready(function() {
         window.location.href = url;
     });
 });
-
 
 </script>
 {% endblock %}

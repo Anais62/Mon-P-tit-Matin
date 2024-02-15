@@ -6,6 +6,7 @@ use App\Entity\Producter;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ProducterCrudController extends AbstractCrudController
@@ -20,7 +21,7 @@ class ProducterCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name','Prénom'),
-            TextareaField::new('description'),
+            TextEditorField::new('description'),
             TextField::new('city', 'Ville du partenaires'),
             ImageField::new('illustration')
                 ->setBasePath('uploads/')
