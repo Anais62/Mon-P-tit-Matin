@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
-use App\Entity\Formule;
 use App\Entity\Products;
+use App\Entity\Formule;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,15 +20,34 @@ class CartController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
-
     #[Route('/mon-panier', name: 'app_cart')]
     public function index(Cart $cart): Response
-    {
+    {      
+        $cartComplete = [];
+        $cartData = $cart->get();
+        $products = $cartData['products'];
+        $formules = $cartData['formules'];
+
+
+        foreach ($products as $id => $quantity) {
+            $cartComplete[] = [
+                'product' => $this->entityManager->getRepository(Products::class)->findOneById($id),
+                'quantity' => $quantity,
+
+            ];
+        } 
         
-        
+        foreach ($formules as $id => $quantity) {
+            $cartCompletes[] = [
+                'formule' => $this->entityManager->getRepository(Formule::class)->findOneById($id),
+                'quantity' => $quantity,
+
+            ];
+        }  
+
         return $this->render('cart/index.html.twig', [
-            'cart' => $cart->get()
+            'cart' => $cartComplete,
+            'carts' => $cartCompletes,
         ]);
     }
 

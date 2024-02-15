@@ -10,25 +10,53 @@
 
 <div class="example-wrapper">
     <h1>Mon panier</h1>
-    Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.
-    
+    Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.    
    
-
-    <table class="table">
-  <thead>
-    <tr>
-    
-      <th scope="col">Produit</th>
-      <th scope="col">Désignation</th>
-      <th scope="col">Quantité</th>
-      <th scope="col">Prix</th>
-      <th scope="col">Total</th>
-      <th scope="col"></th>
-    </tr>
-    
-  </thead>
- </table>
-
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Produits</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    <pre>
+      {{ dump(carts) }}
+      {{ dump(cart) }}
+    </pre>
+    {% for formule in carts %}
+      <tr>
+        <td scope="row"><strong>{{ formule.formule.title }} </strong><br>
+          {% for product in cart %}
+           {{ product.product.name }} x   {{ product.quantity }}
+          {% endfor %}
+        
+        </th>
+        <td> 
+        X {{ formule.quantity }}</td>
+        <td>{{ (formule.formule.price / 100) |number_format(2, ',', '.') }} € </td>
+        <td>{{ ((formule.formule.price * formule.quantity) / 100) |number_format(2, ',', '.') }} €</td>
+      </tr>
+      <tr> 
+    {% endfor %}
+    </tbody>
+  </table>
 </div> 
-{{ dump(cart) }} 
+
+
+
+
+
+
+  
+      
+
+ 
+
+
+
+
+
 {% endblock %}
