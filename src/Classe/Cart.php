@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Classe;
-
-
+ 
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Cart
@@ -14,36 +13,38 @@ class Cart
         $this->requestStack = $requestStack;
     }
 
-    public function add($id, $productIdsArray)
+    public function add($id, $productIdsArray, $orderId)
     {
         $request = $this->requestStack->getCurrentRequest();
         $session = $request->getSession();
 
-        $cart = $session->get('cart', [
-            'formules' => [],
-            'products' => [],
-        ]);
-    
-            // Si l'ID appartient à une formule
-            if (!empty($cart['formules'][$id])) {
-                $cart['formules'][$id]++;
-            } else {
-                $cart['formules'][$id] = 1;
-            }
+        $cart = $session->get('cart', []);
 
-            // Traiter chaque élément de $productIdsArray individuellement
-            foreach ($productIdsArray as $productId) {
-                if (!isset($cart['products'][$productId])) {
-                    $cart['products'][$productId] = 1;
-                } else {
-                    $cart['products'][$productId]++;
-                }
-            }
+        // Générez un nouvel identifiant unique pour la commande
+        // $orderId = uniqid('order_');
 
+
+        $cart['orders'][$orderId] = [
+                'formule' => [
+                    'id' => $id,
+                ],        
+                'products' => [
+                    'id' => $productIdsArray,
+                ]
+            
+        ];
         
-        
+        // COMPTER LES TRUC DU PANIER
+
+        $totalItems = 0;
+        foreach ($cart['orders'] as $order) {
+            $totalItems += count($order['formule']);
+        }
+        $session->set('nb-cart', $totalItems);
         $session->set('cart', $cart);
+
     }
+
 
     public function get()
     {
@@ -57,7 +58,40 @@ class Cart
     {
         $request = $this->requestStack->getCurrentRequest();
         $session = $request->getSession();
-
+        $session->remove('nb-cart');
         return $session->remove('cart');
     }
+
+  
+
 }
+
+
+
+
+// public function add($id, $productIdsArray)
+// {
+//     $request = $this->requestStack->getCurrentRequest();
+//     $session = $request->getSession();
+
+//     $cart = $session->get('cart', []);
+
+//     // Générez un nouvel identifiant unique pour la commande
+//     $orderId = uniqid('order_');
+
+
+//     $cart['orders'][$orderId] = [
+//             'formules', [
+//                 'id' => $id,
+//             ],        
+//             'products', [
+//                 'id' => $productIdsArray,
+//             ]
+        
+//     ];
+
+//     dd($cart);
+
+//     $session->set('cart', $cart);
+
+// }

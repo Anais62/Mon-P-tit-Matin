@@ -3,60 +3,42 @@
 {% block title %}Mon panier - Mon P'tit Matin{% endblock %}
 
 {% block content %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
 <div class="example-wrapper">
     <h1>Mon panier</h1>
     Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.    
-   
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Produits</th>
-        <th scope="col">Quantité</th>
-        <th scope="col">Prix</th>
-        <th scope="col">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-    <pre>
-      {{ dump(carts) }}
-      {{ dump(cart) }}
-    </pre>
-    {% for formule in carts %}
-      <tr>
-        <td scope="row"><strong>{{ formule.formule.title }} </strong><br>
-          {% for product in cart %}
-           {{ product.product.name }} x   {{ product.quantity }}
-          {% endfor %}
+
+   {% if cart|length > 0 %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Produits</th>
+            <th scope="col"></th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {# {{ dump(cart) }}  #}
+          {% for formule in cart %}
+             {{ dump(cart) }} 
         
-        </th>
-        <td> 
-        X {{ formule.quantity }}</td>
-        <td>{{ (formule.formule.price / 100) |number_format(2, ',', '.') }} € </td>
-        <td>{{ ((formule.formule.price * formule.quantity) / 100) |number_format(2, ',', '.') }} €</td>
-      </tr>
-      <tr> 
-    {% endfor %}
-    </tbody>
-  </table>
-</div> 
+          <tr>
+            <td><img src="/uploads/{{ formule.formule.illustration }}" alt="{{ formule.formule.title}}" height="75px"><br></td>     
+            <td>{{ formule.formule.title }}</td>        
+            <td>x {{ formule.quantity }}</td>    
+            <td>{{ (formule.formule.price / 100) |number_format(2, ',', '.') }} €</td>
+            <td>{{ ((formule.formule.price * formule.quantity) / 100) |number_format(2, ',', '.') }} €</td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+  </div> 
+  {% else %}
+  <br>
+  Votre panier est vide
 
-
-
-
-
-
-  
-      
-
- 
-
-
-
-
+  {% endif %}
 
 {% endblock %}

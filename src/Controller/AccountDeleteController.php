@@ -9,12 +9,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface; // Importez cette classe
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Entity\Address;
 
 class AccountDeleteController extends AbstractController
 {
-    private $entityManager; // Ajoutez cette propriété
+    private $entityManager;
+    private $tokenStorage;
 
     public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage)
     {
@@ -51,15 +53,19 @@ class AccountDeleteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Vérifier le mot de passe
             if ($passwordEncoder->isPasswordValid($user, $form->get('password')->getData())) {
+                // Supprimer les adresses liées à l'utilisateur
+                $addresses = $user->getAddresses();
+                foreach ($addresses as $address) {
+                    $this->entityManager->remove($address);
+                }
+
                 // Supprimer le compte
                 $this->entityManager->remove($user);
                 $this->entityManager->flush();
 
                 // Déconnecter l'utilisateur
-                    $this->tokenStorage->setToken(null);
+                $this->tokenStorage->setToken(null);
 
-
-                
                 $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
                 return $this->redirectToRoute('app_confirm_delete');
             } else {

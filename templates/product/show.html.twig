@@ -122,7 +122,7 @@ $(document).ready(function() {
         var url = "{{ path('app_add_to_cart', {'id': 'formuleIdPlaceholder', 'productIds': 'productIdsPlaceholder'}) }}";
         url = url.replace('formuleIdPlaceholder', formuleId);
         url = url.replace('productIdsPlaceholder', selectedProductIds.join(','));
-
+        //console.log(url)
         // Rediriger ou effectuer une autre action avec l'URL construit
         window.location.href = url;
     });
