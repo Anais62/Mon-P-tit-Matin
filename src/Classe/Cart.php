@@ -77,6 +77,7 @@ class Cart
 //     $cart = $session->get('cart', []);
 
 //     // Générez un nouvel identifiant unique pour la commande
+
 //     $orderId = uniqid('order_');
 
 
