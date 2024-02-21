@@ -36,13 +36,13 @@
                         {% endfor %}
                     </div>     
                     <div id='cartbtn'  class="cartbtnactive">   
-                        <div class='disabled-info alert alert-info mt-2'>Veuiller ajouter {{ formule.getNbProduct() }} produits au panier </div> 
+                        <div class='disabled-info alert alert-warning mt-2'>Veuiller ajouter {{ formule.getNbProduct() }} produits au panier </div> 
                               
-                        <a href="#" id="addToCartBtn" class="bg-basic btn w-100 mt-3 disabled" >Ajouter au panier</a>   
+                        <a href="#" id="addToCartBtn" class="bg-basic btn w-100  disabled" >Ajouter au panier</a>   
                     </div>
             </div>
         </div>
-        <div class="formule-description mt-5">
+        <div class="formule-description mt-5 bg-white br-1">
             {{ formule.description|raw }}
 
         </div>
@@ -119,9 +119,9 @@ $(document).ready(function() {
         var formuleId = "{{ formule.id }}";
 
         // Construire l'URL avec les IDs des produits sélectionnés
-        var url = "{{ path('app_add_to_cart', {'id': 'formuleIdPlaceholder', 'productIds': 'productIdsPlaceholder'}) }}";
+        var url = "{{ path('app_add_to_cart', {'id': 'formuleIdPlaceholder', 'productIdsArray': 'productIdsArrayPlaceholder'}) }}";
         url = url.replace('formuleIdPlaceholder', formuleId);
-        url = url.replace('productIdsPlaceholder', selectedProductIds.join(','));
+        url = url.replace('productIdsArrayPlaceholder', selectedProductIds.join(','));
         //console.log(url)
         // Rediriger ou effectuer une autre action avec l'URL construit
         window.location.href = url;

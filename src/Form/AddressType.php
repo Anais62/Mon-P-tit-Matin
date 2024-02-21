@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\Address;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,6 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressType extends AbstractType
 {
+    
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -47,11 +50,20 @@ class AddressType extends AbstractType
                     'placeholder' => 'Entrez votre code postal'
                 ]
             ])
-            ->add('city', TextType::class, [
+            // ->add('city', TextType::class, [
+            //     'label' => 'Votre ville',
+            //     'attr' => [
+            //         'placeholder' => 'Entrez votre ville'
+            //     ]
+            // ])
+            ->add('city', EntityType::class, [
+                'class' => City::class,
+                'choice_label' => 'name', // Remplacez 'name' par la propriété de City que vous souhaitez afficher dans le formulaire
                 'label' => 'Votre ville',
+                'placeholder' => 'Sélectionnez votre ville', // Ajoutez cette ligne
                 'attr' => [
-                    'placeholder' => 'Entrez votre ville'
-                ]
+                    'placeholder' => 'Sélectionnez votre ville' // Ajoutez cette ligne si nécessaire
+                ],
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Votre numéro de téléphone',

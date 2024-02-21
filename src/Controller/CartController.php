@@ -21,91 +21,63 @@ class CartController extends AbstractController
     }
 
     #[Route('/mon-panier', name: 'app_cart')]
-    public function index(Cart $cart, EntityManagerInterface $entityManager, Request $request): Response
-    {      
-        $cartData = $cart->get();
-        $cartComplete = [];       
-        $orderId = $request->getSession()->get('current_order_id');       
-        $nb_formule = $request->getSession()->get('nb-cart');
-        
-        //dd($request->getSession());
-        //dd($orderId);
-        dump($cartComplete);
+    public function index(Cart $cart, Request $request) : Response
+    {
+        // $orderId = uniqid('orderId_');
 
-        if ($cartData) {
-             foreach ($cartData['orders'][$orderId] as $id) {
-                $nb_formule-- ;
-                //if ($nb_formule>=0) {
+        // $cartComplete = [];
 
-                
-            $cartComplete[] = [
-                'formule' => $this->entityManager->getRepository(Formule::class)->findOneById($id),
-                'product' => $this->entityManager->getRepository(Products::class)->findOneById($id),
-            ];
-            //}
-                    dump($cartComplete);
+        // foreach ($cart->get() as $id) {
+        //     $formule =  $this->entityManager->getRepository(Formule::class)->findOneById($id['formule']['id']);
 
-            }
+        //     $product = [];
+        //     $products = [];
 
-        }
-       
-    
-       dd($cartComplete);
-       //dd($cartData['orders'][$orderId]);
-       //dd($cartComplete);
-       //dd($cartData['orders'][$orderId]['formules']);
+        //     foreach ($id['product']['id'] as $productId) {
+        //         $product = $this->entityManager->getRepository(Products::class)->findOneById($productId);
+        //         $products[] = $product;
+        //     }
 
-   
-        return $this->render('cart/index.html.twig',  [
-            'cart' => $cartComplete,
+        //     $cartComplete[] = [
+        //         'formule' => $formule,           
+        //         'product' => $products,
+        //         'quantity' => $id['formule']['quantity'],
+        //         'productQuantity' => $id['product']['quantity'],
+        //         'orderId' => $orderId
+        //     ];
+
+        // }
+
+        return $this->render('cart/index.html.twig', [
+            'cart' =>$cart->get()
         ]);
     }
 
-
-    #[Route('/cart/add/{id}', name: 'app_add_to_cart')]
-    public function add(Cart $cart, $id, Request $request): Response
+    #[Route('/cart/add/{id}/{productIdsArray}', name: 'app_add_to_cart')]
+    public function add(Cart $cart, $id, $productIdsArray) : Response
     {
-        $orderId = uniqid('order_');
-        // Récupérez les IDs de produits depuis la requête
-        $productIds = $request->query->get('productIds');
+        $productIds = explode(',', $productIdsArray);
 
-        // Utilisez explode pour obtenir un tableau d'IDs de produits
-        $productIdsArray = explode(',', $productIds);
-        
-        $cart->add($id, $productIdsArray, $orderId );
+        $cart->add($id, $productIds);
 
-        $request->getSession()->set('current_order_id', $orderId);
-        
         return $this->redirectToRoute('app_cart');
     }
 
-
     #[Route('/cart/remove', name: 'app_remove_my_cart')]
-    public function remove(Cart $cart): Response
+    public function remove(Cart $cart) : Response
     {
         $cart->remove();
 
         return $this->redirectToRoute('app_product');
     }
 
+    #[Route('/cart/delete/{orderId}', name: 'app_delete_to_cart')]
+    public function delete(Cart $cart, $orderId) : Response
+    {
+
+        $cart->delete($orderId);
+
+        return $this->redirectToRoute('app_cart');
+    }
 
 }
-
-
-// if (isset($cartData['orders'][$orderId]['formules'])) {
-        //     foreach ($cartData['orders'][$orderId]['formules'] as $formuleData) {
-        //         // Assurez-vous que $formuleData est bien un tableau associatif
-        //         if (is_array($formuleData) && isset($formuleData['id'])) {
-        //             $formuleId = $formuleData['id'];
-    
-        //             // Utilisez l'EntityManager pour récupérer les détails de la formule
-        //             $formule = $entityManager->getRepository(Formule::class)->find($formuleId);
-    
-        //             if ($formule) {
-        //                 $cartComplete[] = [
-        //                     'formules' => $formule,
-        //                 ];
-        //             }
-        //         }
-        //     }
-        // }

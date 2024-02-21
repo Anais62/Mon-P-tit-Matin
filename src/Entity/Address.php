@@ -33,6 +33,7 @@ class Address
     private ?string $postal = null;
 
     #[ORM\Column(length: 255)]
+    
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
@@ -138,4 +139,10 @@ class Address
 
         return $this;
     }
+    public function __toString()
+{
+    return $this->getCity(); // Utilisez la méthode getCity() pour obtenir le nom de la ville
+}
+
+
 }

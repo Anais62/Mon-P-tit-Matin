@@ -33,18 +33,20 @@ class AccountAddressController extends AbstractController
     {
         $address = new Address();
         
-        $form = $this->createForm( AddressType::class, $address);
-
+        $form = $this->createForm(AddressType::class, $address);
+        
         $form->handleRequest($request);
-
-        if ($form->isSubmitted()  && $form->isValid()) {
+    
+        if ($form->isSubmitted() && $form->isValid()) {
             $address->setUser($this->getUser());
+            // $address->setCity($address->getCity()->getName()); // Enregistrez le nom de la ville
+    
             $this->entityManager->persist($address);
             $this->entityManager->flush();
-
+    
             return $this->redirectToRoute('app_account_address');
-            
         }
+    
 
         return $this->render('account/address_add.html.twig', [
             'form' => $form->createView()
