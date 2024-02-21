@@ -8,7 +8,9 @@
     <h1>Mon panier</h1>
     Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.    
 </div> 
-{{ dump(cart) }}   
+{% set orderId = app.session.get('current_order_id') %}
+
+  
     <div class="container">
       <div class="d-flex justify-content-center">
         <table class="table mx-auto">
@@ -23,31 +25,28 @@
             </tr>
           </thead>
           <tbody>
-            {# {% set total = null %} 
+            {% set total = null %} 
             {% set compteur = 0 %}
-            {% for formule in cart %} 
-            <pre>
-              {{ dump(cart) }}
-            </pre>          
-            <tr>
-              <td class="text-center"><img src="/uploads/{{ formule.formule.illustration }}" alt="{{ formule.formule.title}}" height="75px"></td>
+            {% for formule in cart %}        
+             <tr>
+              <td class="text-center"><img src="/uploads/{{ formule.formule.formule.illustration }}" alt="{{ formule.formule.formule.title}}" height="75px"></td>
               <td>
-                {{ formule.formule.title }} <br><i>(
-                  {% for produit in formule.product %}
-                  {{ produit.name }} x {{ formule.productQuantity }},
+                {{ formule.formule.formule.title }} <br><i>(
+                  {% for produit in formule.product.product %}
+                  {{ produit.name }} x {{ formule.formule.quantity }},
                   {% endfor %}  )</i>
               </td>
-              <td class="text-center">{{ formule.quantity }}</td>
-              <td class="text-center">{{ (formule.formule.price / 100) |number_format(2, ',', '.') }} €</td>
-              <td class="text-center">{{ ((formule.formule.price * formule.quantity) / 100) |number_format(2, ',', '.') }} €</td>
+              <td class="text-center">{{ formule.formule.quantity }}</td>
+              <td class="text-center">{{ (formule.formule.formule.price / 100) |number_format(2, ',', '.') }} €</td>
+              <td class="text-center">{{ ((formule.formule.formule.price * formule.formule.quantity) / 100) |number_format(2, ',', '.') }} €</td>
               <td>
                 <a href="{{ path('app_delete_to_cart', { 'orderId' : formule.orderId }) }}">
                   <img src="{{ asset('assets/img/supprimer.png')}}" height="18px" alt="Supprimer mon produit">
                 </a>
               </td>
             </tr>
-              {% set total = total + (formule.formule.price * formule.quantity) %}
-            {% endfor %} #}
+              {% set total = total + (formule.formule.formule.price * formule.formule.quantity) %}
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -60,7 +59,7 @@
           <div class="text-end">
               <b>Nombre de formule :</b> {{ cart|length }}<br>
               <b>Livraison :</b> 3 €<br>
-              {# <b>Total de mon panier :</b> {{ ((total / 100)+3) |number_format(2, ',', '.') }} €  #}
+              <b>Total de mon panier :</b> {{ ((total / 100)+3) |number_format(2, ',', '.') }} €
               <a href="" class="btn btn-dark w-100 mt-3">Valider mon panier</a>
           </div>
         </div>
@@ -68,7 +67,3 @@
     </div>
 
 {% endblock %}
-
-{# {{ path('app_delete_to_cart', { 'deleteOrderId' :  }) }} #}
-{# {{ path('app_delete_to_cart', { 'orderId' : deleteOrderId }) }} #}
-{# {{ path('app_delete_to_cart', { 'orderId' : delete.orderId}) }} #}

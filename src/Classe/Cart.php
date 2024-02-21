@@ -3,6 +3,7 @@
 namespace App\Classe;
 
 use App\Entity\Formule;
+use App\Entity\Products;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -28,7 +29,7 @@ class Cart
 
         // Vérifier si une commande avec la même formule et les mêmes produits existe déjà dans le panier
         $existingOrder = array_filter($cart, function ($order) use ($id, $productIdsArray) {
-            return $order['formule']['id'] == $id && $order['product']['id'] == $productIdsArray;
+            return $order['formule']['formule'] == $id && $order['product']['product'] == $productIdsArray;
         });
 
         if (!empty($existingOrder)) {
@@ -40,6 +41,13 @@ class Cart
             // La commande n'existe pas encore, ajouter une nouvelle entrée
             $orderId = uniqid('order_');
             $formule = $this->entityManager->getRepository(Formule::class)->findOneById($id);
+
+            foreach ($productIdsArray as $productId) {
+                 $product = $this->entityManager->getRepository(Products::class)->findOneById($productId);
+                 $products[] = $product;
+            }
+           
+
             $cart[$orderId] = [
                 'formule' => [
                     'formule' => $formule,
@@ -47,7 +55,7 @@ class Cart
                     
                 ],
                 'product' => [
-                    'id' => $productIdsArray,
+                    'product' => $products,
                     'quantity' => 1,
                 ],
                 'orderId' => $orderId
@@ -60,6 +68,7 @@ class Cart
         foreach ($cart as $order) {
             $totalItems += count($order['formule']);
         }
+        $totalItems = $totalItems/2 ;
         $session->set('current_order_id', $orderId);
         $session->set('nb-cart', $totalItems);
         $session->set('cart', $cart);
@@ -90,6 +99,12 @@ class Cart
         $session = $request->getSession();
     
         $cart = $session->get('cart', []);
+        
+        $totalItems = $session->get('nb-cart') - 1;
+        
+        $session->set('nb-cart', $totalItems);
+
+
 
         unset($cart[$orderId]);
 
