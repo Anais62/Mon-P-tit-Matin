@@ -38,6 +38,7 @@ class Address
 
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
+    
 
     public function getId(): ?int
     {

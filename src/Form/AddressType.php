@@ -58,7 +58,7 @@ class AddressType extends AbstractType
             // ])
             ->add('city', EntityType::class, [
                 'class' => City::class,
-                'choice_label' => 'name', // Remplacez 'name' par la propriété de City que vous souhaitez afficher dans le formulaire
+                //'choice_label' => 'name', // Remplacez 'name' par la propriété de City que vous souhaitez afficher dans le formulaire
                 'label' => 'Votre ville',
                 'placeholder' => 'Sélectionnez votre ville', // Ajoutez cette ligne
                 'attr' => [

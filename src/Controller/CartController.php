@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Classe\Cart;
 use App\Entity\Products;
 use App\Entity\Formule;
+
+use App\Entity\Delivery;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,11 +49,13 @@ class CartController extends AbstractController
         //     ];
 
         // }
+        $delivery = $this->entityManager->getRepository(Delivery::class)->findAll();
 
         //dd($cart->get());
 
         return $this->render('cart/index.html.twig', [
-            'cart' =>$cart->get()
+            'cart' => $cart->get(),
+            'delivery' => $delivery
         ]);
     }
 
@@ -78,6 +82,22 @@ class CartController extends AbstractController
     {
 
         $cart->delete($orderId);
+
+        return $this->redirectToRoute('app_cart');
+    }
+    #[Route('/cart/add_quantity/{orderId}', name: 'app_add_quantity_to_cart')]
+    public function add_quantity(Cart $cart, $orderId) : Response
+    {
+
+        $cart->add_quantity($orderId);
+
+        return $this->redirectToRoute('app_cart');
+    }
+    #[Route('/cart/decrease_quantity/{orderId}', name: 'app_decrease_quantity_to_cart')]
+    public function decrease_quantity(Cart $cart, $orderId) : Response
+    {
+
+        $cart->decrease_quantity($orderId);
 
         return $this->redirectToRoute('app_cart');
     }

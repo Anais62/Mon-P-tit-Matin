@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CityRepository;
+use App\Repository\DeliveryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CityRepository::class)]
-class City
+#[ORM\Entity(repositoryClass: DeliveryRepository::class)]
+class Delivery
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,6 +15,9 @@ class City
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\Column]
+    private ?float $price = null;
 
     public function getId(): ?int
     {
@@ -32,9 +35,16 @@ class City
 
         return $this;
     }
-    public function __toString()
+
+    public function getPrice(): ?float
     {
-        $city = $this->getName();
-        return $city;
+        return $this->price;
+    }
+
+    public function setPrice(float $price): static
+    {
+        $this->price = $price;
+
+        return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\City;
+use App\Entity\Delivery;
 use App\Entity\Formule;
 use App\Entity\Producter;
 use App\Entity\Products;
@@ -55,6 +56,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Produits', 'fas fa-tag', Products::class);
         yield MenuItem::linkToCrud('Ville', 'fas fa-city', City::class);
+        yield MenuItem::linkToCrud('Livraison', 'fas fa-truck', Delivery::class);
 
     }
 }

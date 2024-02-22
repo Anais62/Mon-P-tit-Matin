@@ -27,40 +27,27 @@ class Cart
 
         $orderId = null;
 
-        // Vérifier si une commande avec la même formule et les mêmes produits existe déjà dans le panier
-        $existingOrder = array_filter($cart, function ($order) use ($id, $productIdsArray) {
-            return $order['formule']['formule'] == $id && $order['product']['product'] == $productIdsArray;
-        });
+        $orderId = uniqid('order_');
+        $formule = $this->entityManager->getRepository(Formule::class)->findOneById($id);
 
-        if (!empty($existingOrder)) {
-            // La commande existe déjà, augmenter la quantité
-            $existingOrderId = key($existingOrder);
-            $cart[$existingOrderId]['formule']['quantity'] += 1;
-            $cart[$existingOrderId]['product']['quantity'] += 1;
-        } else {
-            // La commande n'existe pas encore, ajouter une nouvelle entrée
-            $orderId = uniqid('order_');
-            $formule = $this->entityManager->getRepository(Formule::class)->findOneById($id);
-
-            foreach ($productIdsArray as $productId) {
-                 $product = $this->entityManager->getRepository(Products::class)->findOneById($productId);
-                 $products[] = $product;
-            }
-           
-
-            $cart[$orderId] = [
-                'formule' => [
-                    'formule' => $formule,
-                    'quantity' => 1,
-                    
-                ],
-                'product' => [
-                    'product' => $products,
-                    'quantity' => 1,
-                ],
-                'orderId' => $orderId
-            ];
+        foreach ($productIdsArray as $productId) {
+                $product = $this->entityManager->getRepository(Products::class)->findOneById($productId);
+                $products[] = $product;
         }
+        
+
+        $cart[$orderId] = [
+            'formule' => [
+                'formule' => $formule,
+                'quantity' => 1,
+                
+            ],
+            'product' => [
+                'product' => $products,
+                'quantity' => 1,
+            ],
+            'orderId' => $orderId
+        ];
         
         // COMPTER LES TRUC DU PANIER
 
@@ -109,6 +96,51 @@ class Cart
         unset($cart[$orderId]);
 
         return $session->set('cart', $cart);
+    }
+    
+    public function add_quantity($orderId){
+        $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
+
+        $cart = $session->get('cart', []);
+
+        $cart[$orderId]['formule']['quantity'] = $cart[$orderId]['formule']['quantity'] + 1 ;
+        $totalItems = $session->get('nb-cart') + 1;
+        
+        $session->set('nb-cart', $totalItems);
+        //dd($cart[$orderId]['formule']['quantity']);
+
+        return $session->set('cart', $cart);
+
+    }
+    public function decrease_quantity($orderId){
+        $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
+
+        $cart = $session->get('cart', []);
+
+        if ($cart[$orderId]['formule']['quantity'] > 1) {
+            $cart[$orderId]['formule']['quantity'] = $cart[$orderId]['formule']['quantity'] - 1 ;
+            $totalItems = $session->get('nb-cart') - 1;
+                    
+            $session->set('nb-cart', $totalItems);
+            
+
+               
+     
+        }else {
+            unset($cart[$orderId]);
+            $totalItems = $session->get('nb-cart') - 1;
+                    
+            $session->set('nb-cart', $totalItems);
+           
+        }
+        
+        return $session->set('cart', $cart);
+        
+        //dd($cart[$orderId]['formule']['quantity']);
+
+
     }
 
 }

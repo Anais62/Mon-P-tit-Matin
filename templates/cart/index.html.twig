@@ -10,7 +10,7 @@
 </div> 
 {% set orderId = app.session.get('current_order_id') %}
 
-  
+  {% if cart|length > 0 %} 
     <div class="container">
       <div class="d-flex justify-content-center">
         <table class="table mx-auto">
@@ -27,16 +27,25 @@
           <tbody>
             {% set total = null %} 
             {% set compteur = 0 %}
-            {% for formule in cart %}        
+            {% for formule in cart %}      
              <tr>
               <td class="text-center"><img src="/uploads/{{ formule.formule.formule.illustration }}" alt="{{ formule.formule.formule.title}}" height="75px"></td>
               <td>
                 {{ formule.formule.formule.title }} <br><i>(
                   {% for produit in formule.product.product %}
-                  {{ produit.name }} x {{ formule.formule.quantity }},
+                 
+                  {{ produit.name }} x 1,
                   {% endfor %}  )</i>
               </td>
-              <td class="text-center">{{ formule.formule.quantity }}</td>
+              <td class="text-center">
+              <a href="{{ path('app_decrease_quantity_to_cart', {'orderId' : formule.orderId}) }}">
+                -
+              </a>
+              {{ formule.formule.quantity }}
+              <a href="{{ path('app_add_quantity_to_cart', {'orderId' : formule.orderId}) }}">
+                +
+              </a>
+              </td>
               <td class="text-center">{{ (formule.formule.formule.price / 100) |number_format(2, ',', '.') }} €</td>
               <td class="text-center">{{ ((formule.formule.formule.price * formule.formule.quantity) / 100) |number_format(2, ',', '.') }} €</td>
               <td>
@@ -57,13 +66,23 @@
         </div>
         <div class="col-md-5">
           <div class="text-end">
-              <b>Nombre de formule :</b> {{ cart|length }}<br>
-              <b>Livraison :</b> 3 €<br>
-              <b>Total de mon panier :</b> {{ ((total / 100)+3) |number_format(2, ',', '.') }} €
+              <b>Nombre de formule :</b> {{ cart|length }}</br>
+              <b>Livraison :</b>  
+              {% for delivery in delivery %}
+                {{ (delivery.price / 100) |number_format(2, ',', '.') }}€
+                {% set livraison = (delivery.price / 100)  %}
+              
+               <br>
+              <b>Sous total :</b> {{ (total / 100) |number_format(2, ',', '.') }} €</br>
+              <b>Total de mon panier :</b> {{ ((total / 100) + livraison) |number_format(2, ',', '.') }} €
+              {% endfor %}
               <a href="" class="btn btn-dark w-100 mt-3">Valider mon panier</a>
           </div>
         </div>
       </div>
     </div>
-
+  {% else %}
+    <hr>
+    <p class="text-center"><b>Votre panier est vide</b></p>
+  {% endif %}
 {% endblock %}

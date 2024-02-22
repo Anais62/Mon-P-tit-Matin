@@ -35,11 +35,26 @@ class ProductController extends AbstractController
     {
         $formule = $this->entityManager->getRepository(Formule::class)->findOneBy(['slug' => $slug]);
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        $products = $this->entityManager->getRepository(Products::class)->findAll();
-
+        $allProducts = $this->entityManager->getRepository(Products::class)->findAll();
+        $products = [] ;
         if (!$formule) {
             return $this->redirectToRoute('app_product');
         }
+        // Pour afficher seulement les produits des enfants
+        if ($formule->isKid() == true) {
+            foreach ($allProducts as $product) {
+                if ($product->isKid()) {
+                    //dump($product);
+                    $products[] = $product ;
+
+                }
+            }
+
+        }else {
+            $products = $this->entityManager->getRepository(Products::class)->findAll();
+
+        }
+        //dd($products);
 
         return $this->render('product/show.html.twig', [
             'formule' => $formule,
